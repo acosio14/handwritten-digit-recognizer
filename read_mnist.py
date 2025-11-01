@@ -6,9 +6,15 @@
 
 import os
 
-def read_ubyte(path):
-    ...
-
+def read_idx(idx_file):
+    with open(idx_file,'rb') as file:
+        magic_number = file.read(4)
+        dimension_1 = file.read(4)
+        dimension_2 = file.read(4)
+        dimension_3 = file.read(4)
+        data = file.read()
+    
+    
 
 def main():
 
@@ -19,9 +25,9 @@ def main():
         'test_labels': 'MNIST_dataset/t10k-images-idx1-ubyte/t10k-images-idx1-ubyte',
     }
     
-    train_images_path = os.path.join(os.getcwd(),mnst_dataset.get('train_images'))
+    train_images_filepath = os.path.join(os.getcwd(),mnst_dataset.get('train_images'))
 
-    train_image_data = read_ubyte(train_images_path)
+    train_image_data = read_idx(train_images_filepath)
 
 if __name__ == "__main__":
     main()
