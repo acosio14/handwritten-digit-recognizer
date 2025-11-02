@@ -11,18 +11,18 @@ import numpy as np
 def read_idx(idx_file):
     with open(idx_file,'rb') as file:
         magic_number = file.read(4) #0 0 (data type) (num of dimensions fo stored arrays)
-        dimension_1 = file.read(4) # 60000
-        dimension_2 = file.read(4) # 28
-        dimension_3 = file.read(4) # 28
-        data = file.read()
-    data_np = np.frombuffer(data, dtype=np.ubyte) #NEED datatype
-    img_pixels = data_np.reshape(dimension_1,dimension_2,dimension_3)
+        dimension_1 = int.from_bytes(file.read(4), byteorder='big', signed=False) # 60000
+        dimension_2 = int.from_bytes(file.read(4), byteorder='big', signed=False)# 28
+        dimension_3 = int.from_bytes(file.read(4), byteorder='big', signed=False)# 28
+        data_np = np.frombuffer(file.read(), dtype=np.uint8) #grayscale (8-bit unsigned integer)
+    return data_np.reshape(dimension_1,dimension_2,dimension_3) #img pixels (img, row, column)
 
-def show_image(image_name: str,image_rgb: tuple[int, int, int]):
+def show_image(image_name: str,gray_img: tuple[int, int, int]):
 
-    plt.imshow(image_rgb)
+    plt.imshow(gray_img)
+    plt.axis('off')
     plt.title(image_name)
-    plt.show()
+    plt.imshow(gray_img,cmap='gray')
 
 
 def main():
@@ -37,6 +37,8 @@ def main():
     train_images_filepath = os.path.join(os.getcwd(),mnst_dataset.get('train_images'))
 
     train_image_data = read_idx(train_images_filepath)
+
+    show_image(train_image_data)
 
 if __name__ == "__main__":
     main()
