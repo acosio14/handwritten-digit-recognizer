@@ -35,6 +35,11 @@ def standardize_data(dataset):
     # Standardization of dataset
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
+def split():
+    ...
+    # Need to divide train data into train/validation. Because test_images_10k is for final testing. 
+    # Train data in more in-house only. Cross-validation
+
 def main():
 
     mnst_dataset = {
@@ -57,7 +62,11 @@ def main():
     #show_image(train_images)
 
     train_images = standardize_data(train_images)
-
-
+    
+    # Need to train a NN: image pixels are my features -> prediction, 
+    # image_label is my target. Loss is pred_imag - true_label
+    # At first, predicted value can be random but with more iteration/training it will "learn"
+    # to match the labels.
+    
 if __name__ == "__main__":
     main()
