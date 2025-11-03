@@ -33,10 +33,7 @@ def show_image(image_name: str,gray_img: tuple[int, int, int]):
 
 def standardize_data(dataset):
     # Standardization of dataset
-    data_mean = np.mean(dataset)
-    data_std = np.std(dataset)
-
-    return (dataset - data_mean) / data_std
+    return (dataset - np.mean(dataset)) / np.std(dataset)
 
 def main():
 
@@ -57,7 +54,10 @@ def main():
     test_images = read_imgages_idx(test_images_filepath)
     train_labels = read_labels_idx(test_labels_filepath)
 
-    show_image(train_images)
+    #show_image(train_images)
+
+    train_images = standardize_data(train_images)
+
 
 if __name__ == "__main__":
     main()
