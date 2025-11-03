@@ -8,7 +8,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-def read_idx(idx_file):
+def read_imgages_idx(idx_file):
     with open(idx_file,'rb') as file:
         magic_number = file.read(4) #0 0 (data type) (num of dimensions fo stored arrays)
         dimension_1 = int.from_bytes(file.read(4), byteorder='big', signed=False) # 60000
@@ -17,12 +17,22 @@ def read_idx(idx_file):
         data_np = np.frombuffer(file.read(), dtype=np.uint8) #grayscale (8-bit unsigned integer)
     return data_np.reshape(dimension_1,dimension_2,dimension_3) #img pixels (img, row, column)
 
+def read_labels_idx(idx_file):
+    with open(idx_file,'rb') as file:
+        magic_number = file.read(4) #0 0 (data type) (num of dimensions fo stored arrays)
+        dimension_1 = int.from_bytes(file.read(4), byteorder='big', signed=False)
+        data_np = np.frombuffer(file.read(), dtype=np.uint8) 
+    return data_np.reshape(dimension_1,1) 
+
 def show_image(image_name: str,gray_img: tuple[int, int, int]):
 
     plt.imshow(gray_img)
     plt.axis('off')
     plt.title(image_name)
     plt.imshow(gray_img,cmap='gray')
+
+def preprocess_image():
+    ...
 
 
 def main():
@@ -35,10 +45,16 @@ def main():
     }
     
     train_images_filepath = os.path.join(os.getcwd(),mnst_dataset.get('train_images'))
+    train_labels_filepath = os.path.join(os.getcwd(),mnst_dataset.get('train_labels'))
+    test_images_filepath = os.path.join(os.getcwd(),mnst_dataset.get('test_images'))
+    test_labels_filepath = os.path.join(os.getcwd(),mnst_dataset.get('test_labels'))
 
-    train_image_data = read_idx(train_images_filepath)
+    train_images = read_imgages_idx(train_images_filepath)
+    train_labels = read_labels_idx(train_labels_filepath)
+    test_images = read_imgages_idx(test_images_filepath)
+    train_labels = read_labels_idx(test_labels_filepath)
 
-    show_image(train_image_data)
+    show_image(train_images)
 
 if __name__ == "__main__":
     main()
