@@ -31,9 +31,12 @@ def show_image(image_name: str,gray_img: tuple[int, int, int]):
     plt.title(image_name)
     plt.imshow(gray_img,cmap='gray')
 
-def preprocess_image():
-    ...
+def standardize_data(dataset):
+    # Standardization of dataset
+    data_mean = np.mean(dataset)
+    data_std = np.std(dataset)
 
+    return (dataset - data_mean) / data_std
 
 def main():
 
