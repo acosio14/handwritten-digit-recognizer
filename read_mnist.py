@@ -35,10 +35,21 @@ def standardize_data(dataset):
     # Standardization of dataset
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
-def split():
-    ...
-    # Need to divide train data into train/validation. Because test_images_10k is for final testing. 
-    # Train data in more in-house only. Cross-validation
+def split(images_data, labels, val_ratio):
+
+    number_of_images = len(labels)
+    shuffled_sequence = np.random.permutation(number_of_images)
+
+    shuffled_images = images_data[shuffled_sequence]
+    shuffled_labels = labels[shuffled_sequence]
+    
+    split_index = (1 - val_ratio) * number_of_images
+    X_train = shuffled_images[:split_index]
+    X_val = shuffled_images[split_index:]
+    y_train = shuffled_labels[:split_index]
+    y_val = shuffled_labels[split_index:]
+
+    return X_train, X_val, y_train, y_val
 
 def main():
 
@@ -57,16 +68,17 @@ def main():
     train_images = read_imgages_idx(train_images_filepath)
     train_labels = read_labels_idx(train_labels_filepath)
     test_images = read_imgages_idx(test_images_filepath)
-    train_labels = read_labels_idx(test_labels_filepath)
+    test_labels = read_labels_idx(test_labels_filepath)
 
-    #show_image(train_images)
+    X_train, X_val, y_train, y_val = split(train_images, train_labels, 0.2)
 
-    train_images = standardize_data(train_images)
+    X_train = standardize_data(X_train)
+    X_val = standardize_data(X_val)
     
     # Need to train a NN: image pixels are my features -> prediction, 
     # image_label is my target. Loss is pred_imag - true_label
     # At first, predicted value can be random but with more iteration/training it will "learn"
     # to match the labels.
-    
+
 if __name__ == "__main__":
     main()
