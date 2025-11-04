@@ -19,3 +19,34 @@ class ImageClassifier(nn.Module):
         x = self.output_layer(x)
 
         return x
+    
+class ModelTraining():
+    def __init__(self, neural_network, optimzer, loss_function):
+        self.model = neural_network
+        self.optimizer = optimzer
+        self.loss_function = loss_function
+    
+    def train_loop(self, number_of_epochs, dataset):
+        for epoch in range(number_of_epochs):
+            self.model.train()
+            total_loss = 0
+            for X_train, y_train in dataset:
+                
+                # Forward pass.
+                y_pred = self.model(X_train) # Makes prediction with X data
+                loss = self.loss_function(y_pred, y_train) #Calculates Loss (y_pred - y_true)
+
+                # Backward pass and optimization
+                self.optimizer.zero_grad() # Reset the gradients of all optimized
+                loss.backward() # Computes the gradeint of current tensor wrt graph leaves
+                                # Traverses teh computational graph (built during forward pass)
+                                # It calculates the gradients of the loss with respect to all tensors
+                                # in the graph.
+                self.optimizer.step() # Uses the gradients to updates the parameters, minimizing loss
+                                      # and improving model's performance.
+
+                total_loss += loss.item()
+            print(f"Epoch {epoch + 1}")
+            print(f"Train Loss: {total_loss / len(dataset)}")
+            # print(f"Val Loss: {avg_val_loss}")
+            print()
