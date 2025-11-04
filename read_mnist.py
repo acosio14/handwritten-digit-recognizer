@@ -75,6 +75,7 @@ def main():
     X_train = standardize_data(X_train)
     X_val = standardize_data(X_val)
     
+    # Need to flatten X_train before inputting in NN
     # Need to train a NN: image pixels are my features -> prediction, 
     # image_label is my target. Loss is pred_imag - true_label
     # At first, predicted value can be random but with more iteration/training it will "learn"
