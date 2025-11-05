@@ -51,8 +51,15 @@ class ModelTraining():
                                       # and improving model's performance.
 
                 total_loss += loss.item()
+
+            # Evaluation Step should go here
+
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {total_loss / len(dataset)}")
             # print(f"Val Loss: {avg_val_loss}")
             print()
         # Create Validation step: Test predictions against validation data once its going higher stop.
+
+        # Train - model learn from this set
+        # validation - used to evaluate models and tune them (dev set)
+        # Test - used to compare different models and select best. Unbiased.
