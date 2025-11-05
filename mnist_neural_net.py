@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 class ImageClassifier(nn.Module):
-    def __init__(self,image_pixels):
+    def __init__(self,image_pixels): # image_pixel = 28*28 => 784
         super().__init__()
         self.fc1 = nn.Linear(image_pixels,512)
         self.relu1 = nn.ReLU()
@@ -26,10 +26,24 @@ class ModelTraining():
         self.optimizer = optimzer
         self.loss_function = loss_function
     
-    def train_loop(self, number_of_epochs, dataset):
-        for epoch in range(number_of_epochs):
+    def batch_creator(self, X, y):
+        # X = (10,10), y = (10,1)
+        batch_size = 2
+        num_of_images = len(X)
+        for i in range(0,num_of_images,batch_size):
+            start = i
+            end = i + 1
+            batch_X = X[start:end]
+            batch_Y = y[start:end]
+
+
+
+    def train_loop(self, number_of_epochs, dataset): # dataset = TensorDataset(X,y)
+        for epoch in range(number_of_epochs): # start with 50 epochs
             self.model.train()
             total_loss = 0
+            # Create batch size of 32
+            # data_loader = DataLoader(dataset, batch_size=32, shuffle=True)
             for X_train, y_train in dataset:
                 
                 # Forward pass.
@@ -50,3 +64,4 @@ class ModelTraining():
             print(f"Train Loss: {total_loss / len(dataset)}")
             # print(f"Val Loss: {avg_val_loss}")
             print()
+        # Create Validation step: Test predictions against validation data once its going higher stop.
