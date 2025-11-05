@@ -25,26 +25,17 @@ class ModelTraining():
         self.model = neural_network
         self.optimizer = optimzer
         self.loss_function = loss_function
-    
-    def batch_creator(self, X, y):
-        # X = (10,10), y = (10,1)
-        batch_size = 2
-        num_of_images = len(X)
-        for i in range(0,num_of_images,batch_size):
-            start = i
-            end = i + 1
-            batch_X = X[start:end]
-            batch_Y = y[start:end]
 
-
-
-    def train_loop(self, number_of_epochs, dataset): # dataset = TensorDataset(X,y)
+    def train_loop(self, number_of_epochs, dataset, batch_size): # dataset = TensorDataset(X,y)
         for epoch in range(number_of_epochs): # start with 50 epochs
-            self.model.train()
             total_loss = 0
-            # Create batch size of 32
-            # data_loader = DataLoader(dataset, batch_size=32, shuffle=True)
-            for X_train, y_train in dataset:
+            dataset_size = len(dataset)
+            images, labels = dataset
+            
+            self.model.train()
+            for i in range(dataset_size/batch_size):
+                X_train = images[i:i+batch_size]
+                y_train = labels[i:i+batch_size]
                 
                 # Forward pass.
                 y_pred = self.model(X_train) # Makes prediction with X data
