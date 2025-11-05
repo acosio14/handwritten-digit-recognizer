@@ -26,7 +26,7 @@ class ModelTraining():
         self.optimizer = optimzer
         self.loss_function = loss_function
 
-    def train_loop(self, number_of_epochs, dataset, batch_size): # dataset = TensorDataset(X,y)
+    def train_loop(self, dataset, number_of_epochs, batch_size): # dataset = TensorDataset(X,y)
         for epoch in range(number_of_epochs): # start with 50 epochs
             total_loss = 0
             dataset_size = len(dataset)
