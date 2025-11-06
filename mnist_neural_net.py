@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+import math
 
 class ImageClassifier(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
@@ -26,17 +27,30 @@ class ModelTraining():
         self.optimizer = optimzer
         self.loss_function = loss_function
 
-    def train_loop(self, dataset, number_of_epochs, batch_size): # dataset = TensorDataset(X,y)
+
+    def batch_creator(dataset_size, batch_size):
+        i = 0
+        while i < dataset_size:
+            X_train = images[i:i+batch_size]
+
+
+
+            i = i + batch_size
+
+
+    def train_loop(self, dataset, number_of_epochs, batch_size):
         for epoch in range(number_of_epochs): # start with 50 epochs
             total_loss = 0
             dataset_size = len(dataset)
             images, labels = dataset
-            
             self.model.train()
-            for i in range(dataset_size/batch_size):
-                X_train = images[i:i+batch_size]
-                y_train = labels[i:i+batch_size]
-                
+            for i in range(0, dataset_size, batch_size):
+                if (i == dataset_size - 1) and (dataset_size % batch_size != 0):
+                    batch_size = dataset_size % batch_size
+                start = i
+                end = i + batch_size
+                X_train = images[start:end]
+                y_train = labels[start:end]
                 # Forward pass.
                 y_pred = self.model(X_train) # Makes prediction with X data
                 loss = self.loss_function(y_pred, y_train) #Calculates Loss (y_pred - y_true)
