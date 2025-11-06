@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-import math
+import matplotlib.pylab as plt
 
 class ImageClassifier(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
@@ -26,6 +26,8 @@ class ModelTraining():
         self.model = neural_network
         self.optimizer = optimzer
         self.loss_function = loss_function
+        self.train_list = []
+        self.validation_list = []
 
 
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
@@ -74,12 +76,28 @@ class ModelTraining():
                         loss = self.loss_function(y_pred, y_val)
                         v_total_loss += loss
 
+            self.train_list.append(total_loss / dataset_size)
+            self.validation_list.append(v_total_loss/ val_set_size)
+
             print(f"Epoch {epoch + 1}")
-            print(f"Train Loss: {total_loss / dataset_size}")
-            print(f"Val Loss: {v_total_loss/ val_set_size}")
+            print(f"Train Loss: {self.train_list[-1]}")
+            print(f"Val Loss: {self.validation_list[-1]}")
             print()
+
         # Create Validation step: Test predictions against validation data once its going higher stop.
 
         # Train - model learn from this set
         # validation - used to evaluate models and tune them (dev set)
         # Test - used to compare different models and select best. Unbiased.
+    def plot_train_eval_figure(self):
+        if not self.train_list:
+            print("Train List empty")
+        elif not self.validation_list:
+            print("Evaluation List empty.")
+        else:
+            epochs = [*range(1,len(self.train_list) - 1)]
+            plt.plot(epochs, self.train_list, label="Training", color="red")
+            plt.plot(epochs, self.validation_list, label="Validation", color="blue")
+            plt.xlabel("Epochs")
+            plt.legend()
+            plt.show()
