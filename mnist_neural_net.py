@@ -90,10 +90,8 @@ class ModelTraining():
         # validation - used to evaluate models and tune them (dev set)
         # Test - used to compare different models and select best. Unbiased.
     def plot_train_eval_figure(self):
-        if not self.train_list:
-            print("Train List empty")
-        elif not self.validation_list:
-            print("Evaluation List empty.")
+        if not self.train_list and not self.validation_list:
+            print("Train or Evaluation List empty.")
         else:
             epochs = [*range(1,len(self.train_list) - 1)]
             plt.plot(epochs, self.train_list, label="Training", color="red")
