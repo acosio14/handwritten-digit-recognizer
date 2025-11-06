@@ -28,21 +28,13 @@ class ModelTraining():
         self.loss_function = loss_function
 
 
-    def batch_creator(dataset_size, batch_size):
-        i = 0
-        while i < dataset_size:
-            X_train = images[i:i+batch_size]
-
-
-
-            i = i + batch_size
-
-
-    def train_loop(self, dataset, number_of_epochs, batch_size):
+    def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
         for epoch in range(number_of_epochs): # start with 50 epochs
+
+            # Training
             total_loss = 0
-            dataset_size = len(dataset)
-            images, labels = dataset
+            dataset_size = len(train_set)
+            images, labels = train_set
             self.model.train()
             for i in range(0, dataset_size, batch_size):
                 if (i == dataset_size - 1) and (dataset_size % batch_size != 0):
@@ -66,11 +58,25 @@ class ModelTraining():
 
                 total_loss += loss.item()
 
-            # Evaluation Step should go here
+            # Evaluation
+            self.model.eval()
+            val_set_size = len(val_set)
+            v_images, v_labels = val_set
+            v_total_loss = 0
+            with torch.no_grad():
+                for i in range(0, val_set_size, batch_size):
+                    if (i == val_set_size - 1) and (val_set_size % batch_size != 0):
+                        batch_size = val_set_size % batch_size
+                        X_val = v_images[start:end]
+                        y_val = v_labels[start:end]
+                        
+                        y_pred = self.model(X_val)
+                        loss = self.loss_function(y_pred, y_val)
+                        v_total_loss += loss
 
             print(f"Epoch {epoch + 1}")
-            print(f"Train Loss: {total_loss / len(dataset)}")
-            # print(f"Val Loss: {avg_val_loss}")
+            print(f"Train Loss: {total_loss / dataset_size}")
+            print(f"Val Loss: {v_total_loss/ val_set_size}")
             print()
         # Create Validation step: Test predictions against validation data once its going higher stop.
 
