@@ -97,5 +97,6 @@ class ModelTraining():
             plt.plot(epochs, self.train_list, label="Training", color="red")
             plt.plot(epochs, self.validation_list, label="Validation", color="blue")
             plt.xlabel("Epochs")
+            plt.ylabel("Avg. Loss")
             plt.legend()
             plt.show()
