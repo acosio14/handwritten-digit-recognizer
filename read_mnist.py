@@ -31,7 +31,7 @@ def show_image(image_name: str,gray_img: tuple[int, int, int]):
     plt.title(image_name)
     plt.imshow(gray_img,cmap='gray')
 
-def standardize_data(dataset):
+def standardize_data(dataset): # Might need a reverse standardize. To get back to original data
     # Standardization of dataset
     print(f"Standardized with mean:{np.mean(dataset)} and std:{np.std(dataset)}")
     return (dataset - np.mean(dataset)) / np.std(dataset)
