@@ -28,6 +28,9 @@ class ModelTraining():
         self.loss_function = loss_function
         self.train_list = []
         self.validation_list = []
+        self.best_val_loss = 10000
+        self.best_model = None
+        self.best_metrics = None
 
 
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
@@ -72,12 +75,20 @@ class ModelTraining():
                         X_val = v_images[start:end]
                         y_val = v_labels[start:end]
                         
-                        y_pred = self.model(X_val)
-                        loss = self.loss_function(y_pred, y_val)
+                        y_val_pred = self.model(X_val)
+                        loss = self.loss_function(y_val_pred, y_val)
                         v_total_loss += loss
+            
 
-            self.train_list.append(total_loss / dataset_size)
-            self.validation_list.append(v_total_loss/ val_set_size)
+            average_train_loss = total_loss / dataset_size
+            average_val_loss = v_total_loss/ val_set_size
+            self.train_list.append(average_train_loss)
+            self.validation_list.append(average_val_loss)
+
+            if average_val_loss <= self.best_val_loss:
+                self.best_val_loss = average_train_loss
+                self.best_model = self.model
+                self.best_metrics = (epoch, y_val, y_val_pred)
 
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
