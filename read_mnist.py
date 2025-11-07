@@ -33,6 +33,7 @@ def show_image(image_name: str,gray_img: tuple[int, int, int]):
 
 def standardize_data(dataset):
     # Standardization of dataset
+    print(f"Standardized with mean:{np.mean(dataset)} and std:{np.std(dataset)}")
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
 def split(images_data, labels, val_ratio):
@@ -43,7 +44,7 @@ def split(images_data, labels, val_ratio):
     shuffled_images = images_data[shuffled_sequence]
     shuffled_labels = labels[shuffled_sequence]
     
-    split_index = (1 - val_ratio) * number_of_images
+    split_index = int((1 - val_ratio) * number_of_images)
     X_train = shuffled_images[:split_index]
     X_val = shuffled_images[split_index:]
     y_train = shuffled_labels[:split_index]
@@ -57,7 +58,7 @@ def main():
         'train_images': 'MNIST_dataset/train-images-idx3-ubyte/train-images-idx3-ubyte',
         'train_labels': 'MNIST_dataset/train-labels-idx1-ubyte/train-labels-idx1-ubyte',
         'test_images': 'MNIST_dataset/t10k-images-idx3-ubyte/t10k-images-idx3-ubyte',
-        'test_labels': 'MNIST_dataset/t10k-images-idx1-ubyte/t10k-images-idx1-ubyte',
+        'test_labels': 'MNIST_dataset/t10k-labels-idx1-ubyte/t10k-labels-idx1-ubyte',
     }
     
     train_images_filepath = os.path.join(os.getcwd(),mnst_dataset.get('train_images'))

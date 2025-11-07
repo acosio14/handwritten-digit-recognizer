@@ -12,7 +12,7 @@ class ImageClassifier(nn.Module):
         self.relu2 = nn.ReLU()
         self.fc3 = nn.Linear(128,64)
         self.relu3 = nn.ReLU()
-        self.output_layer = nn.linear(64,1)
+        self.output_layer = nn.Linear(64,1)
 
     def forward(self, image):
         x = self.relu1(self.fc1(image))
@@ -83,6 +83,7 @@ class ModelTraining():
 
             average_train_loss = total_loss / dataset_size
             average_val_loss = v_total_loss/ val_set_size
+
             self.train_list.append(average_train_loss)
             self.validation_list.append(average_val_loss)
 
