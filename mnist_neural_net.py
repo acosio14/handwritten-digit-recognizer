@@ -22,8 +22,9 @@ class ImageNeuralNet(nn.Module):
 
         return x
 
-class ImageConvNeuralNet():
-    ...
+class ImageConvNeuralNet(nn.Module):
+    def __init__(self):
+        super().__init__()
     
 class ModelTraining():
     def __init__(self, neural_network, optimzer, loss_function):
