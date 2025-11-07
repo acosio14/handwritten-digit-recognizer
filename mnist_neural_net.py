@@ -21,6 +21,9 @@ class ImageClassifier(nn.Module):
         x = self.output_layer(x)
 
         return x
+
+class ImageConvNeuralNet():
+    ...
     
 class ModelTraining():
     def __init__(self, neural_network, optimzer, loss_function):
