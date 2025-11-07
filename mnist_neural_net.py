@@ -54,6 +54,8 @@ class ModelTraining():
                 X_train = images[start:end]
                 y_train = labels[start:end]
                 # Forward pass.
+
+                # TO-DO: NEED TO CONVERT X_train to tensor somewhere before model()
                 y_pred = self.model(X_train) # Makes prediction with X data
                 loss = self.loss_function(y_pred, y_train) #Calculates Loss (y_pred - y_true)
 
