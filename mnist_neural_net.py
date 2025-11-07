@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 import matplotlib.pylab as plt
+from datetime import datetime
 
 class ImageClassifier(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
@@ -100,6 +101,14 @@ class ModelTraining():
         # Train - model learn from this set
         # validation - used to evaluate models and tune them (dev set)
         # Test - used to compare different models and select best. Unbiased.
+    def save_model(self):
+        epoch, *other = self.best_metrics
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        torch.save(
+            self.best_model.state_dict(),
+            f"trained_models/Feedforward/NN_model_epoch{epoch}_{timestamp}.pth"
+        )
+
     def plot_train_eval_figure(self):
         if not self.train_list and not self.validation_list:
             print("Train or Evaluation List empty.")
