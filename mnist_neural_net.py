@@ -3,7 +3,7 @@ from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
 
-class ImageClassifier(nn.Module):
+class ImageNeuralNet(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
         super().__init__()
         self.fc1 = nn.Linear(image_pixels,512)
