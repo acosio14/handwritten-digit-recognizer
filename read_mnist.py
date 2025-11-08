@@ -54,7 +54,7 @@ def split(images_data, labels, val_ratio):
     return X_train, X_val, y_train, y_val
 
 def convert_numpy_to_flatten_tensor(numpy_array):
-    tensor_array = torch.tensor(numpy_array)
+    tensor_array = torch.tensor(numpy_array,dtype=torch.float32)
     return torch.flatten(tensor_array)
 
 
