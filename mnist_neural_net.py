@@ -96,7 +96,7 @@ class ModelTraining():
             if average_val_loss <= self.best_val_loss:
                 self.best_val_loss = average_train_loss
                 self.best_model = self.model
-                self.best_metrics = (epoch, y_val, y_val_pred)
+                #self.best_metrics = (epoch, y_val, y_val_pred)
 
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
