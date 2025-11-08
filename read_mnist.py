@@ -7,6 +7,7 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
 
 def read_imgages_idx(idx_file):
     with open(idx_file,'rb') as file:
@@ -51,6 +52,11 @@ def split(images_data, labels, val_ratio):
     y_val = shuffled_labels[split_index:]
 
     return X_train, X_val, y_train, y_val
+
+def convert_numpy_to_flatten_tensor(numpy_array):
+    tensor_array = torch.tensor(numpy_array)
+    return torch.flatten(tensor_array)
+
 
 def main():
 
