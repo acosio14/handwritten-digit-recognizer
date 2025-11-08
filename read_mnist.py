@@ -34,7 +34,7 @@ def show_image(image_name: str,gray_img: tuple[int, int, int]):
 
 def standardize_data(dataset): # Might need a reverse standardize. To get back to original data
     # Standardization of dataset
-    print(f"Standardized with mean:{round(np.mean(dataset,2))} and std:{round(np.std(dataset),2)}")
+    print(f"Standardized with mean: {np.round(np.mean(dataset),2)} and std: {np.round(np.std(dataset),2)}")
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
 def split(images_data, labels, val_ratio):
