@@ -12,7 +12,7 @@ class ImageNeuralNet(nn.Module):
         self.relu2 = nn.ReLU()
         self.fc3 = nn.Linear(128,64)
         self.relu3 = nn.ReLU()
-        self.output_layer = nn.Linear(64,1)
+        self.output_layer = nn.Linear(64,10) 
 
     def forward(self, image):
         x = self.relu1(self.fc1(image))
