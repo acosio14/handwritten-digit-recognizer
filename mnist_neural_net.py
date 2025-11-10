@@ -43,7 +43,7 @@ class ModelTraining():
 
             # Training
             total_loss = 0
-            dataset_size = len(train_set)
+            dataset_size = len(train_set[0])
             images, labels = train_set
             self.model.train()
             for i in range(0, dataset_size, batch_size):
