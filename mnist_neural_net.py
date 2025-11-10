@@ -72,19 +72,21 @@ class ModelTraining():
 
             # Evaluation
             self.model.eval()
-            val_set_size = len(val_set)
+            val_set_size = len(val_set[0])
             v_images, v_labels = val_set
             v_total_loss = 0
             with torch.no_grad():
                 for i in range(0, val_set_size, batch_size):
                     if (i == val_set_size - 1) and (val_set_size % batch_size != 0):
                         batch_size = val_set_size % batch_size
-                        X_val = v_images[start:end]
-                        y_val = v_labels[start:end]
-                        
-                        y_val_pred = self.model(X_val)
-                        loss = self.loss_function(y_val_pred, y_val)
-                        v_total_loss += loss
+                    start = i
+                    end = i + batch_size
+                    X_val = v_images[start:end]
+                    y_val = v_labels[start:end]
+                    
+                    y_val_pred = self.model(X_val)
+                    loss = self.loss_function(y_val_pred, y_val)
+                    v_total_loss += loss
             
 
             average_train_loss = total_loss / dataset_size
