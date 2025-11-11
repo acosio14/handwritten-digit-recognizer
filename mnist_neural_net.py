@@ -121,7 +121,7 @@ class ModelTraining():
         if not self.train_list and not self.validation_list:
             print("Train or Evaluation List empty.")
         else:
-            epochs = [*range(1,len(self.train_list) - 1)]
+            epochs = [*range(1,len(self.train_list) + 1)]
             plt.plot(epochs, self.train_list, label="Training", color="red")
             plt.plot(epochs, self.validation_list, label="Validation", color="blue")
             plt.xlabel("Epochs")
