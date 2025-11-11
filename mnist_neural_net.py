@@ -85,12 +85,11 @@ class ModelTraining():
                     y_val = v_labels[start:end]
                     
                     y_val_pred = self.model(X_val)
-                    loss = self.loss_function(y_val_pred, y_val)
-                    v_total_loss += loss
+                    vloss = self.loss_function(y_val_pred, y_val)
+                    v_total_loss += vloss.item()
             
-
-            average_train_loss = total_loss / dataset_size
-            average_val_loss = v_total_loss/ val_set_size
+            average_train_loss = total_loss / (dataset_size/batch_size)
+            average_val_loss = v_total_loss/ (val_set_size/batch_size)
 
             self.train_list.append(average_train_loss)
             self.validation_list.append(average_val_loss)
