@@ -5,7 +5,7 @@ from datetime import datetime
 import torch.optim as optim
 
 class ImageNeuralNet(nn.Module):
-    def __init__(self,image_pixels): # image_pixel = 28*28 => 784
+    def __init__(self,image_pixels):
         super().__init__()
         self.fc1 = nn.Linear(image_pixels,5)
         self.relu1 = nn.ReLU()
@@ -46,7 +46,7 @@ class ModelTraining():
         loss_function = nn.CrossEntropyLoss()
 
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
-        for epoch in range(number_of_epochs): # start with 50 epochs
+        for epoch in range(number_of_epochs):
 
             # Training
             total_loss = 0
@@ -62,10 +62,8 @@ class ModelTraining():
                 X_train = images[start:end].to(torch.device("mps"))
                 y_train = labels[start:end].to(torch.device("mps"))
                 # Forward pass.
-
                 y_pred = self.model(X_train) # Makes prediction with X data
                 loss = self.loss_function(y_pred, y_train) #Calculates Loss (y_pred - y_true)
-
                 # Backward pass and optimization
                 self.optimizer.zero_grad() # Reset the gradients of all optimized
                 loss.backward() # Computes the gradeint of current tensor wrt graph leaves
@@ -111,10 +109,6 @@ class ModelTraining():
             print(f"Val Loss: {self.validation_list[-1]}")
             print()
 
-        # Create Validation step: Test predictions against validation data once its going higher stop.
-
-        # Train - model learn from this set
-        # validation - used to evaluate models and tune them (dev set)
         # Test - used to compare different models and select best. Unbiased.
     def save_model(self):
         epoch, *other = self.best_metrics
@@ -132,6 +126,6 @@ class ModelTraining():
             plt.plot(epochs, self.train_list, label="Training", color="red")
             plt.plot(epochs, self.validation_list, label="Validation", color="blue")
             plt.xlabel("Epochs")
-            plt.ylabel("Avg. Loss")
+            plt.ylabel("Loss")
             plt.legend()
             plt.show()
