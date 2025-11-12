@@ -103,7 +103,7 @@ class ModelTraining():
             print()
 
         # Test - used to compare different models and select best. Unbiased.
-    def save_model(self):
+    def save_model(self): # Add parameter details to better distinguish
         epoch, *other = self.best_metrics
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         torch.save(
