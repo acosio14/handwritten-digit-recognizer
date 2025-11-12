@@ -38,13 +38,6 @@ class ModelTraining():
         self.best_model = None
         self.best_metrics = None
 
-    def paramaterize(self):
-        mps_device = torch.device("mps")
-        image_pixels = 28*28
-        model = ImageNeuralNet(image_pixels).to(mps_device)
-        optimizer = optim.Adam(model.parameters(), lr=0.003)
-        loss_function = nn.CrossEntropyLoss()
-
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
         for epoch in range(number_of_epochs):
 
