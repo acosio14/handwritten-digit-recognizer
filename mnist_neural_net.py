@@ -79,8 +79,8 @@ class ModelTraining():
                         batch_size = val_set_size % batch_size
                     start = i
                     end = i + batch_size
-                    X_val = v_images[start:end]
-                    y_val = v_labels[start:end]
+                    X_val = v_images[start:end].to(torch.device("mps"))
+                    y_val = v_labels[start:end].to(torch.device("mps"))
                     
                     y_val_pred = self.model(X_val)
                     vloss = self.loss_function(y_val_pred, y_val)
