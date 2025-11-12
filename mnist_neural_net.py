@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
+import torch.optim as optim
 
 class ImageNeuralNet(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
@@ -37,6 +38,12 @@ class ModelTraining():
         self.best_model = None
         self.best_metrics = None
 
+    def paramaterize(self):
+        mps_device = torch.device("mps")
+        image_pixels = 28*28
+        model = ImageNeuralNet(image_pixels).to(mps_device)
+        optimizer = optim.Adam(model.parameters(), lr=0.003)
+        loss_function = nn.CrossEntropyLoss()
 
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
         for epoch in range(number_of_epochs): # start with 50 epochs
