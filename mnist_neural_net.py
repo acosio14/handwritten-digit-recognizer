@@ -6,13 +6,13 @@ from datetime import datetime
 class ImageNeuralNet(nn.Module):
     def __init__(self,image_pixels): # image_pixel = 28*28 => 784
         super().__init__()
-        self.fc1 = nn.Linear(image_pixels,512)
+        self.fc1 = nn.Linear(image_pixels,5)
         self.relu1 = nn.ReLU()
-        self.fc2 = nn.Linear(512,128)
+        self.fc2 = nn.Linear(5,15)
         self.relu2 = nn.ReLU()
-        self.fc3 = nn.Linear(128,64)
+        self.fc3 = nn.Linear(15,5)
         self.relu3 = nn.ReLU()
-        self.output_layer = nn.Linear(64,10) 
+        self.output_layer = nn.Linear(5,10) 
 
     def forward(self, image):
         x = self.relu1(self.fc1(image))
