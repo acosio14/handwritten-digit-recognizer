@@ -1,9 +1,3 @@
-# .idx1 - stores labels, with a header indicating the number of items and
-# and then a sequence of single-byte labels
-
-# .idx - stores image data, with a header indicating the number of images, height,
-# and width, followed by the raw pixel data for each image.
-
 import os
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,8 +12,8 @@ def read_imgages_idx(idx_file: BinaryIO) -> NDArray:
         dimension_1 = int.from_bytes(file.read(4), byteorder='big', signed=False)
         dimension_2 = int.from_bytes(file.read(4), byteorder='big', signed=False)
         dimension_3 = int.from_bytes(file.read(4), byteorder='big', signed=False)
-        data_np = np.frombuffer(file.read(), dtype=np.uint8) #grayscale (8-bit unsigned integer)
-    return data_np.reshape(dimension_1,dimension_2,dimension_3) #img pixels (img, row, column)
+        data_np = np.frombuffer(file.read(), dtype=np.uint8)     # grayscale (8-bit unsigned integer)
+    return data_np.reshape(dimension_1,dimension_2,dimension_3)  # img pixels (img, row, column)
 
 def read_labels_idx(idx_file: BinaryIO) -> NDArray:
     """Process .idx file labels and convert to numpy array."""
@@ -72,6 +66,6 @@ def convert_numpy_to_flatten_tensor(numpy_array: NDArray):
 
 def main():
     ...
-    
+
 if __name__ == "__main__":
     main()
