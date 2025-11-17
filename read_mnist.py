@@ -37,6 +37,11 @@ def standardize_data(dataset): # Might need a reverse standardize. To get back t
     print(f"Standardized with mean: {np.round(np.mean(dataset),2)} and std: {np.round(np.std(dataset),2)}")
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
+def normalize_data(dataset):
+    dataset_min = np.min(dataset)
+    dataset_max = np.max(dataset)
+    return (dataset - dataset_min) / (dataset_max - dataset_min)
+
 def split(images_data, labels, val_ratio):
 
     number_of_images = len(labels)
