@@ -62,7 +62,7 @@ def convert_numpy_to_flatten_tensor(numpy_array: NDArray):
     tensor_array = torch.tensor(numpy_array,dtype=torch.float32)
     return torch.flatten(tensor_array, start_dim=1)
 
-def main():
+def main() -> None:
     ...
 
 if __name__ == "__main__":
