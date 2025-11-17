@@ -8,11 +8,7 @@ class ImageNeuralNet(nn.Module):
     
     """
     def __init__(self,image_pixels):
-        """Initialize an instance of ImageNeuralNet.
-        
-        Args:
-        
-        """
+        """Initialize an instance of ImageNeuralNet."""
         super().__init__()
         self.fc1 = nn.Linear(image_pixels,5)
         self.relu1 = nn.ReLU()
@@ -38,11 +34,7 @@ class ImageConvNeuralNet(nn.Module):
 class ModelTraining():
     """Create Training Loop for Neural Net Model."""
     def __init__(self, neural_network, optimzer, loss_function):
-        """Initialize an instance of ModelTraining.
-        
-        Args:
-        
-        """
+        """Initialize an instance of ModelTraining."""
         self.model = neural_network
         self.optimizer = optimzer
         self.loss_function = loss_function
