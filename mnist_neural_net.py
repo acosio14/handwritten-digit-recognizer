@@ -4,7 +4,15 @@ import matplotlib.pylab as plt
 from datetime import datetime
 
 class ImageNeuralNet(nn.Module):
+    """Create a Feedforward Neural Network for an image.
+    
+    """
     def __init__(self,image_pixels):
+        """Initialize an instance of ImageNeuralNet.
+        
+        Args:
+        
+        """
         super().__init__()
         self.fc1 = nn.Linear(image_pixels,5)
         self.relu1 = nn.ReLU()
@@ -15,6 +23,7 @@ class ImageNeuralNet(nn.Module):
         self.output_layer = nn.Linear(5,10) 
 
     def forward(self, image):
+        """Feedfoward architecture."""
         x = self.relu1(self.fc1(image))
         x = self.relu2(self.fc2(x))
         x = self.relu3(self.fc3(x))
@@ -27,7 +36,13 @@ class ImageConvNeuralNet(nn.Module):
         super().__init__()
     
 class ModelTraining():
+    """Create Training Loop for Neural Net Model."""
     def __init__(self, neural_network, optimzer, loss_function):
+        """Initialize an instance of ModelTraining.
+        
+        Args:
+        
+        """
         self.model = neural_network
         self.optimizer = optimzer
         self.loss_function = loss_function
@@ -38,6 +53,7 @@ class ModelTraining():
         self.best_metrics = None
 
     def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
+        """Train the Neural Net model and evaluate it."""
         for epoch in range(number_of_epochs):
 
             # Training
@@ -98,6 +114,7 @@ class ModelTraining():
             print()
 
     def save_model(self, is_best):
+        """Save the Neural Net model."""
         epoch, *other = self.best_metrics
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         if is_best:
@@ -111,6 +128,7 @@ class ModelTraining():
         )
 
     def plot_train_eval_figure(self):
+        """Plot the train and validation curves from the Neural Net model."""
         if not self.train_list and not self.validation_list:
             print("Train or Evaluation List empty.")
         else:
