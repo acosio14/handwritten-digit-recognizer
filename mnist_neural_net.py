@@ -2,7 +2,6 @@ import torch
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
-import torch.optim as optim
 
 class ImageNeuralNet(nn.Module):
     def __init__(self,image_pixels):
@@ -55,16 +54,12 @@ class ModelTraining():
                 X_train = images[start:end].to(torch.device("mps"))
                 y_train = labels[start:end].to(torch.device("mps"))
                 # Forward pass.
-                y_pred = self.model(X_train) # Makes prediction with X data
-                loss = self.loss_function(y_pred, y_train) #Calculates Loss (y_pred - y_true)
+                y_pred = self.model(X_train)
+                loss = self.loss_function(y_pred, y_train)
                 # Backward pass and optimization
-                self.optimizer.zero_grad() # Reset the gradients of all optimized
-                loss.backward() # Computes the gradeint of current tensor wrt graph leaves
-                                # Traverses teh computational graph (built during forward pass)
-                                # It calculates the gradients of the loss with respect to all tensors
-                                # in the graph.
-                self.optimizer.step() # Uses the gradients to updates the parameters, minimizing loss
-                                      # and improving model's performance.
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
 
                 total_loss += loss.item()
 
@@ -102,8 +97,7 @@ class ModelTraining():
             print(f"Val Loss: {self.validation_list[-1]}")
             print()
 
-        # Test - used to compare different models and select best. Unbiased.
-    def save_model(self, is_best): # Add parameter details to better distinguish
+    def save_model(self, is_best):
         epoch, *other = self.best_metrics
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         if is_best:
@@ -111,7 +105,7 @@ class ModelTraining():
         else:
             saved_model = self.model.state_dict()
 
-        torch.save(
+        torch.save(  # Add parameter details to better distinguish
             saved_model,
             f"trained_models/Feedforward/NN_model_epoch{epoch}_{timestamp}.pth"
         )
