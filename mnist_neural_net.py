@@ -30,6 +30,18 @@ class ImageNeuralNet(nn.Module):
 class ImageConvNeuralNet(nn.Module):
     def __init__(self):
         super().__init__()
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=3,kernel_size=(3,3))
+        self.relu1 = nn.ReLU()
+        self.flatten1 = nn.Flatten()
+        self.output_layer = nn.Linear(2032,10) # 4 Channels x (26,26) + 4 (bias), (26,26) - no padding
+    
+    def forward(self,image):
+        x = self.conv1(image)
+        x = self.relu1(x)
+        x = self.flatten1(x)
+        x = self.output_layer(x)
+
+        return x
     
 class ModelTraining():
     """Create Training Loop for Neural Net Model."""
