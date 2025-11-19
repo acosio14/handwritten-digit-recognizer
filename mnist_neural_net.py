@@ -34,7 +34,7 @@ class ImageConvNeuralNet(nn.Module):
         self.relu1 = nn.ReLU()
         self.pool = nn.MaxPool2d(kernel_size=(2,2),stride=2)
         self.flatten1 = nn.Flatten()
-        self.output_layer = nn.Linear(2028,10) # 4 Channels x (26,26) + 4 (bias), (26,26) - no padding
+        self.output_layer = nn.Linear(588,10) # 4 Channels x (26,26) + 4 (bias), (26,26) - no padding
     
     def forward(self,image):
         x = self.conv1(image)
