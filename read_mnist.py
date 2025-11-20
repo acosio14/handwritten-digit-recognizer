@@ -31,7 +31,6 @@ def show_image(image_name: str, gray_img: Tuple[int, int, int]) -> None:
 
 def standardize_data(dataset: NDArray) -> NDArray: 
     """Standardize data."""
-    print(f"Standardized with mean: {np.round(np.mean(dataset),2)} and std: {np.round(np.std(dataset),2)}")
     return (dataset - np.mean(dataset)) / np.std(dataset)
 
 def normalize_data(dataset: NDArray) -> NDArray:
