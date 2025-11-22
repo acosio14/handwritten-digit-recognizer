@@ -29,10 +29,6 @@ def show_image(image_name: str, gray_img: Tuple[int, int, int]) -> None:
     plt.title(image_name)
     plt.imshow(gray_img,cmap='gray')
 
-def standardize_data(dataset: NDArray) -> NDArray: 
-    """Standardize data."""
-    return (dataset - np.mean(dataset)) / np.std(dataset)
-
 def normalize_data(dataset: NDArray) -> NDArray:
     """Normalize data."""
     dataset_min = np.min(dataset)
