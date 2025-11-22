@@ -124,7 +124,7 @@ class ModelTraining():
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
             print(f"Val Loss: {self.validation_list[-1]}")
-            print(f"Accuracy: {round(acc,2)*100}")
+            print(f"Accuracy: {acc*100}")
             print()
 
     def save_model(self, is_best):
