@@ -58,14 +58,14 @@ class ModelTraining():
         self.best_model = None
         self.best_metrics = None
 
-    def train_loop(self, train_set, val_set, number_of_epochs, batch_size):
+    def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
         """Train the Neural Net model and evaluate it."""
         for epoch in range(number_of_epochs):
 
             # Training
             total_loss = 0
-            dataset_size = len(train_set[0])
-            images, labels = train_set
+            dataset_size = len(training_set[0])
+            images, labels = training_set
             self.model.train()
             for i in range(0, dataset_size, batch_size):
                 if (i == dataset_size - 1) and (dataset_size % batch_size != 0):
@@ -87,8 +87,8 @@ class ModelTraining():
 
             # Evaluation
             self.model.eval()
-            val_set_size = len(val_set[0])
-            v_images, v_labels = val_set
+            val_set_size = len(validation_set[0])
+            v_images, v_labels = validation_set
             v_total_loss = 0
             with torch.no_grad():
                 for i in range(0, val_set_size, batch_size):
