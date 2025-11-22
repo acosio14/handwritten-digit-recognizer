@@ -76,8 +76,8 @@ class ModelTraining():
                 X_train = images[start:end].to(torch.device("mps"))
                 y_train = labels[start:end].to(torch.device("mps"))
                 # Forward pass.
-                y_pred = self.model(X_train)
-                loss = self.loss_function(y_pred, y_train)
+                logits = self.model(X_train)
+                loss = self.loss_function(logits, y_train)
                 # Backward pass and optimization
                 self.optimizer.zero_grad()
                 loss.backward()
@@ -99,8 +99,8 @@ class ModelTraining():
                     X_val = v_images[start:end].to(torch.device("mps"))
                     y_val = v_labels[start:end].to(torch.device("mps"))
                     
-                    y_val_pred = self.model(X_val)
-                    vloss = self.loss_function(y_val_pred, y_val)
+                    logits = self.model(X_val)
+                    vloss = self.loss_function(logits, y_val)
                     v_total_loss += vloss.item()
             
             average_train_loss = total_loss / (dataset_size/batch_size)
