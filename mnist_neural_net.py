@@ -2,6 +2,8 @@ import torch
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
+import torchmetrics
+import torch.nn.functional as F
 
 class ImageNeuralNet(nn.Module):
     """Create a Feedforward Neural Network for an image.
@@ -60,6 +62,7 @@ class ModelTraining():
 
     def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
         """Train the Neural Net model and evaluate it."""
+        metric = torchmetrics.classification.Accuracy(task="multiclass", num_classes=10).to(torch.device("mps"))
         for epoch in range(number_of_epochs):
 
             # Training
@@ -74,7 +77,7 @@ class ModelTraining():
                 end = i + batch_size
 
                 X_train = images[start:end].to(torch.device("mps"))
-                y_train = labels[start:end].to(torch.device("mps"))
+                y_train = labels[start:end].to(torch.device("mps")).reshape(batch_size,)
                 # Forward pass.
                 logits = self.model(X_train)
                 loss = self.loss_function(logits, y_train)
@@ -97,9 +100,13 @@ class ModelTraining():
                     start = i
                     end = i + batch_size
                     X_val = v_images[start:end].to(torch.device("mps"))
-                    y_val = v_labels[start:end].to(torch.device("mps"))
+                    y_val = v_labels[start:end].to(torch.device("mps")).reshape(batch_size,)
                     
                     logits = self.model(X_val)
+                    probabilites = F.softmax(logits, dim=1)
+                    y_pred = torch.argmax(probabilites, dim=1)
+
+                    acc = metric(y_pred, y_val)
                     vloss = self.loss_function(logits, y_val)
                     v_total_loss += vloss.item()
             
@@ -112,11 +119,12 @@ class ModelTraining():
             if average_val_loss <= self.best_val_loss:
                 self.best_val_loss = average_train_loss
                 self.best_model = self.model
-                self.best_metrics = (epoch, y_val, y_val_pred)
+                self.best_metrics = (epoch, y_val, y_pred)
 
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
             print(f"Val Loss: {self.validation_list[-1]}")
+            print(f"Accuracy: {round(acc,2)*100}")
             print()
 
     def save_model(self, is_best):
