@@ -153,13 +153,14 @@ class ModelTraining():
             f1score.reset()
             print()
 
-    def save_model(self, is_best):
+    def save_model(self, is_best, epochs):
         """Save the Neural Net model."""
-        epoch, *other = self.best_metrics
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         if is_best:
+            epoch, *other = self.best_metrics
             saved_model = self.best_model.state_dict()
         else:
+            epoch = epochs
             saved_model = self.model.state_dict()
 
         torch.save(  # Add parameter details to better distinguish
