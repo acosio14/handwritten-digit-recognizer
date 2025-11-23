@@ -2,7 +2,12 @@ import torch
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
-from torchmetrics.classification import MulticlassAccuracy, F1Score, Precision, Recall
+from torchmetrics.classification import(
+    MulticlassAccuracy,
+    MulticlassPrecision,
+    MulticlassF1Score,
+    MulticlassRecall,
+)
 import torch.nn.functional as F
 
 class ImageNeuralNet(nn.Module):
@@ -63,9 +68,10 @@ class ModelTraining():
     def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
         """Train the Neural Net model and evaluate it."""
         accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
-        precision = Precision(task='multiclass',num_classes=10).to(torch.device("mps"))
-        recall = Recall(task='multiclass',num_classes=10).to(torch.device("mps"))
-        f1score = F1Score(task='multiclass',num_classes=10).to(torch.device("mps"))
+        precision = MulticlassPrecision(num_classes=10, average='weighted').to(torch.device("mps"))
+        recall = MulticlassRecall(num_classes=10, average='weighted').to(torch.device("mps"))
+        f1score = MulticlassF1Score(num_classes=10, average='weighted').to(torch.device("mps"))
+
         for epoch in range(number_of_epochs):
 
             # Training
@@ -140,7 +146,7 @@ class ModelTraining():
             print(f"Accuracy: {total_accuracy*100}")
             print(f"Precision: {total_precision*100}")
             print(f"Recall: {total_recall*100}")
-            print(f"F1 Score: {total_f1score*100}")
+            print(f"F1 Score: {total_f1score}")
             accuracy.reset()
             precision.reset()
             recall.reset()
