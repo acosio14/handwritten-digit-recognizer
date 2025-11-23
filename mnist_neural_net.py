@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
-from torchmetrics.classification import MulticlassAccuracy
+from torchmetrics.classification import MulticlassAccuracy, F1Score, Precision, Recall
 import torch.nn.functional as F
 
 class ImageNeuralNet(nn.Module):
@@ -62,7 +62,7 @@ class ModelTraining():
 
     def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
         """Train the Neural Net model and evaluate it."""
-        valid_accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
+        accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
         for epoch in range(number_of_epochs):
 
             # Training
@@ -105,14 +105,14 @@ class ModelTraining():
                     logits = self.model(X_val)
                     probabilites = F.softmax(logits, dim=1)
                     y_pred = torch.argmax(probabilites, dim=1)
-                    valid_accuracy.update(y_pred, y_val)
-                    
+                    accuracy.update(y_pred, y_val)
+
                     vloss = self.loss_function(logits, y_val)
                     v_total_loss += vloss.item()
             
             average_train_loss = total_loss / (dataset_size/batch_size)
             average_val_loss = v_total_loss/ (val_set_size/batch_size)
-            total_valid_accuracy = valid_accuracy.compute()
+            total_accuracy = accuracy.compute()
 
             self.train_list.append(average_train_loss)
             self.validation_list.append(average_val_loss)
@@ -125,8 +125,8 @@ class ModelTraining():
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
             print(f"Val Loss: {self.validation_list[-1]}")
-            print(f"Accuracy: {total_valid_accuracy*100}")
-            valid_accuracy.reset()
+            print(f"Accuracy: {total_accuracy*100}")
+            accuracy.reset()
             print()
 
     def save_model(self, is_best):
