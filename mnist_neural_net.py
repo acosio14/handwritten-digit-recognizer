@@ -165,14 +165,15 @@ class ModelTraining():
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         cwd = os.getcwd()
-        filename = '_'.join([filename,epoch])
+        epoch_str = "epoch" + str(epoch)
+        filename = '_'.join([filename,epoch_str,timestamp,".pth"])
         file_dir = os.path.join(cwd, folder)
         
         if not os.path.isdir(file_dir):
             print(f"Error: {file_dir} doesn't exists.")
             return
         
-        new_file = os.path.join(file_dir, filename, timestamp,".pth")
+        new_file = os.path.join(file_dir, filename)
 
         torch.save(saved_model, new_file)
 
