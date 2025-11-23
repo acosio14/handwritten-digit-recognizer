@@ -63,6 +63,9 @@ class ModelTraining():
     def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
         """Train the Neural Net model and evaluate it."""
         accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
+        precision = Precision(task='multiclass',num_classes=10).to(torch.device("mps"))
+        recall = Recall(task='multiclass',num_classes=10).to(torch.device("mps"))
+        f1 = F1Score(task='multiclass',num_classes=10).to(torch.device("mps"))
         for epoch in range(number_of_epochs):
 
             # Training
