@@ -65,7 +65,7 @@ class ModelTraining():
         accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
         precision = Precision(task='multiclass',num_classes=10).to(torch.device("mps"))
         recall = Recall(task='multiclass',num_classes=10).to(torch.device("mps"))
-        f1 = F1Score(task='multiclass',num_classes=10).to(torch.device("mps"))
+        f1score = F1Score(task='multiclass',num_classes=10).to(torch.device("mps"))
         for epoch in range(number_of_epochs):
 
             # Training
@@ -108,14 +108,22 @@ class ModelTraining():
                     logits = self.model(X_val)
                     probabilites = F.softmax(logits, dim=1)
                     y_pred = torch.argmax(probabilites, dim=1)
+
                     accuracy.update(y_pred, y_val)
+                    precision.update(y_pred, y_val)
+                    recall.update(y_pred, y_val)
+                    f1score.update(y_pred, y_val)
 
                     vloss = self.loss_function(logits, y_val)
                     v_total_loss += vloss.item()
             
             average_train_loss = total_loss / (dataset_size/batch_size)
             average_val_loss = v_total_loss/ (val_set_size/batch_size)
+
             total_accuracy = accuracy.compute()
+            total_precision = precision.compute()
+            total_recall = recall.compute()
+            total_f1score = f1score.compute()
 
             self.train_list.append(average_train_loss)
             self.validation_list.append(average_val_loss)
@@ -128,8 +136,15 @@ class ModelTraining():
             print(f"Epoch {epoch + 1}")
             print(f"Train Loss: {self.train_list[-1]}")
             print(f"Val Loss: {self.validation_list[-1]}")
+
             print(f"Accuracy: {total_accuracy*100}")
+            print(f"Precision: {total_precision*100}")
+            print(f"Recall: {total_recall*100}")
+            print(f"F1 Score: {total_f1score*100}")
             accuracy.reset()
+            precision.reset()
+            recall.reset()
+            f1score.reset()
             print()
 
     def save_model(self, is_best):
