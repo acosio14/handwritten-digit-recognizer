@@ -1,4 +1,5 @@
 import torch
+import os
 from torch import nn
 import matplotlib.pylab as plt
 from datetime import datetime
@@ -153,9 +154,8 @@ class ModelTraining():
             f1score.reset()
             print()
 
-    def save_model(self, is_best, epochs):
+    def save_model(self, folder, filename, epochs, is_best=False):
         """Save the Neural Net model."""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         if is_best:
             epoch, *other = self.best_metrics
             saved_model = self.best_model.state_dict()
@@ -163,10 +163,18 @@ class ModelTraining():
             epoch = epochs
             saved_model = self.model.state_dict()
 
-        torch.save(  # Add parameter details to better distinguish
-            saved_model,
-            f"trained_models/Feedforward/NN_model_epoch{epoch}_{timestamp}.pth"
-        )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        cwd = os.getcwd()
+        filename = '_'.join([filename,epoch])
+        file_dir = os.path.join(cwd, folder)
+        
+        if not os.path.isdir(file_dir):
+            print(f"Error: {file_dir} doesn't exists.")
+            return
+        
+        new_file = os.path.join(file_dir, filename, timestamp,".pth")
+
+        torch.save(saved_model, new_file)
 
     def plot_train_eval_figure(self):
         """Plot the train and validation curves from the Neural Net model."""
