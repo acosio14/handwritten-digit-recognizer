@@ -1,15 +1,16 @@
-import torch
 import os
-from torch import nn
-import matplotlib.pylab as plt
 from datetime import datetime
+
+import matplotlib.pylab as plt
+import torch
+import torch.nn.functional as F
+from torch import nn
 from torchmetrics.classification import (
     MulticlassAccuracy,
-    MulticlassPrecision,
     MulticlassF1Score,
+    MulticlassPrecision,
     MulticlassRecall,
 )
-import torch.nn.functional as F
 
 
 class ImageNeuralNet(nn.Module):
@@ -73,13 +74,13 @@ class ModelTraining:
         """Train the Neural Net model and evaluate it."""
         accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
         precision = MulticlassPrecision(num_classes=10, average="weighted").to(
-            torch.device("mps")
+            torch.device("mps"),
         )
         recall = MulticlassRecall(num_classes=10, average="weighted").to(
-            torch.device("mps")
+            torch.device("mps"),
         )
         f1score = MulticlassF1Score(num_classes=10, average="weighted").to(
-            torch.device("mps")
+            torch.device("mps"),
         )
 
         for epoch in range(number_of_epochs):
@@ -177,7 +178,7 @@ class ModelTraining:
     def save_model(self, folder, filename, epochs, is_best=False):
         """Save the Neural Net model."""
         if is_best:
-            epoch, *other = self.best_metrics
+            epoch, *_ = self.best_metrics
             saved_model = self.best_model.state_dict()
         else:
             epoch = epochs
@@ -186,7 +187,7 @@ class ModelTraining:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         cwd = os.getcwd()
         epoch_str = "epoch" + str(epoch)
-        filename = "_".join([filename, epoch_str, timestamp, ".pth"])
+        filename = f"{filename}_{epoch_str}_{timestamp}.pth"
         file_dir = os.path.join(cwd, folder)
 
         if not os.path.isdir(file_dir):
