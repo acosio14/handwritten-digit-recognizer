@@ -16,7 +16,7 @@ from torchmetrics.classification import (
 class ImageNeuralNet(nn.Module):
     """Create a Feedforward Neural Network for an image."""
 
-    def __init__(self, image_pixels):
+    def __init__(self, image_pixels: int) -> None:
         """Initialize an instance of ImageNeuralNet."""
         super().__init__()
         self.fc1 = nn.Linear(image_pixels, 5)
@@ -27,7 +27,7 @@ class ImageNeuralNet(nn.Module):
         self.relu3 = nn.ReLU()
         self.output_layer = nn.Linear(5, 10)
 
-    def forward(self, image):
+    def forward(self, image: int) -> torch.tensor:
         """Feedfoward architecture."""
         x = self.relu1(self.fc1(image))
         x = self.relu2(self.fc2(x))
@@ -38,7 +38,7 @@ class ImageNeuralNet(nn.Module):
 
 
 class ImageConvNeuralNet(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=3, kernel_size=(3, 3))
         self.relu1 = nn.ReLU()
@@ -46,7 +46,7 @@ class ImageConvNeuralNet(nn.Module):
         self.flatten1 = nn.Flatten()
         self.output_layer = nn.Linear(507, 10)
 
-    def forward(self, image):
+    def forward(self, image) -> torch.tensor:
         x = self.conv1(image)
         x = self.relu1(x)
         x = self.pool(x)
@@ -70,7 +70,13 @@ class ModelTraining:
         self.best_model = None
         self.best_metrics = None
 
-    def train_loop(self, training_set, validation_set, number_of_epochs, batch_size):
+    def train_loop(
+        self,
+        training_set: tuple[torch.tensor, torch.tensor],
+        validation_set: tuple[torch.tensor, torch.tensor],
+        number_of_epochs: int,
+        batch_size: int,
+    ) -> None:
         """Train the Neural Net model and evaluate it."""
         accuracy = MulticlassAccuracy(num_classes=10).to(torch.device("mps"))
         precision = MulticlassPrecision(num_classes=10, average="weighted").to(
@@ -175,7 +181,13 @@ class ModelTraining:
             f1score.reset()
             print()
 
-    def save_model(self, folder, filename, epochs, is_best=False):
+    def save_model(
+        self,
+        folder: os.PathLike,
+        filename: os.PathLike,
+        epochs: int,
+        is_best: bool = False,
+    ) -> None:
         """Save the Neural Net model."""
         if is_best:
             epoch, *_ = self.best_metrics
@@ -198,7 +210,7 @@ class ModelTraining:
 
         torch.save(saved_model, new_file)
 
-    def plot_train_eval_figure(self):
+    def plot_train_eval_figure(self) -> None:
         """Plot the train and validation curves from the Neural Net model."""
         if not self.train_list and not self.validation_list:
             print("Train or Evaluation List empty.")
