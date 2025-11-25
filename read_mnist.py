@@ -1,7 +1,8 @@
+from typing import BinaryIO
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from typing import BinaryIO, Tuple
 from numpy.typing import NDArray
 
 
@@ -25,7 +26,7 @@ def read_labels_idx(idx_file: BinaryIO) -> NDArray:
     return data_np.reshape(dimension_1, 1)
 
 
-def show_image(image_name: str, gray_img: Tuple[int, int, int]) -> None:
+def show_image(image_name: str, gray_img: tuple[int, int, int]) -> None:
     """Plot image."""
     plt.imshow(gray_img)
     plt.axis("off")
@@ -41,10 +42,9 @@ def normalize_data(dataset: NDArray) -> NDArray:
 
 
 def split(
-    images_data: NDArray, labels: NDArray, val_ratio: float
-) -> Tuple[NDArray, NDArray, NDArray, NDArray]:
+    images_data: NDArray, labels: NDArray, val_ratio: float,
+) -> tuple[NDArray, NDArray, NDArray, NDArray]:
     """Split data into train and validation sets."""
-
     number_of_images = len(labels)
     shuffled_sequence = np.random.permutation(number_of_images)
 
@@ -52,15 +52,15 @@ def split(
     shuffled_labels = labels[shuffled_sequence]
 
     split_index = int((1 - val_ratio) * number_of_images)
-    X_train = shuffled_images[:split_index]
-    X_val = shuffled_images[split_index:]
+    x_train = shuffled_images[:split_index]
+    x_val = shuffled_images[split_index:]
     y_train = shuffled_labels[:split_index]
     y_val = shuffled_labels[split_index:]
 
-    return X_train, X_val, y_train, y_val
+    return x_train, x_val, y_train, y_val
 
 
-def convert_numpy_to_flatten_tensor(numpy_array: NDArray):
+def convert_numpy_to_flatten_tensor(numpy_array: NDArray) -> None:
     """Convert numpy to a flatten tensor."""
     tensor_array = torch.tensor(numpy_array, dtype=torch.float32)
     return torch.flatten(tensor_array, start_dim=1)
