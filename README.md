@@ -4,4 +4,10 @@ This is my 2nd AI Project. The idea was to develop a Convolutional Neural Networ
 
 The data was initial preprocessed by splitting the training set into train and validation sets, with 20% of the original training dat set aside for validation. Afterwards, the data was normalized to make it easier for the models to learn. Both networks were trained using pytorch's CrossEntropyLoss, along with ADAM optimizer with a learning rate of 0.003. They were trained in batches of 32 images for 10 epochs.
 
-To evaluate the models, the final networks were tested with the separate, untouched test data. Metrics suchs as accuracy, precision, recall, and f1-score were used to evaluate the performance of the neural networks. Overall, the results showed that the CNN outperformed the FNN. The entire process take to pre-process the data, train the models, and evaluate them can be seen in the jupyter notebook, [handwritten_digits](https://github.com/acosio14/handwritten-digits-recognizer/blob/main/handwritten-digits.ipynb),
+To evaluate the models, the final networks were tested with the separate, untouched test data. Metrics suchs as accuracy, precision, recall, and f1-score were used to evaluate the performance of the neural networks. Overall, the results showed that the CNN outperformed the FNN. The entire process taken to pre-process the data, train the models, and evaluate them can be seen in the jupyter notebook, [handwritten_digits](https://github.com/acosio14/handwritten-digits-recognizer/blob/main/handwritten-digits.ipynb).
+
+Overall, I learned:
+- How to build a Convolutional Neural Network.
+- How to properly batch data from scratch.
+- Better understanding of classification metrics.
+- The proper use of CrossEntropLoss and what inputs it requires.
