@@ -1,13 +1,13 @@
 # Handwritten Digit Recognizer
 
-This is my 2nd AI Project. The idea was to develop a Convolutional Neural Network (CNN) to detect handwritten digits. I also develop a Feedforward Neural Network (CNN) to compare it against the CNN. The data used to train both models was the classic MNIST dataset. It contians about 70,000 images that are split into a training set of 60,000 examples, and a test set of 10,000 examples.
+This is my second AI project. The goal was to develop a Convolutional Neural Network (CNN) to detect handwritten digits using the classic MNIST dataset. I also built a Feedforward Neural Network (FNN) to compare its performance against the CNN. The MNIST dataset contains about 70,000 images, split into 60,000 training examples and 10,000 test examples.
 
-The data was initial preprocessed by splitting the training set into train and validation sets, with 20% of the original training dat set aside for validation. Afterwards, the data was normalized to make it easier for the models to learn. Both networks were trained using pytorch's CrossEntropyLoss, along with ADAM optimizer with a learning rate of 0.003. They were trained in batches of 32 images for 10 epochs.
+For preprocessing, the original training set was further divided into training and validation subsets, with 20% reserved for validation. All images were then normalized to help the models learn effectively. Both networks were trained using PyTorch’s `CrossEntropyLoss` and the ADAM optimizer with a learning rate of 0.003. Training was done in batches of 32 images for 10 epochs.
 
-To evaluate the models, the final networks were tested with the separate, untouched test data. Metrics suchs as accuracy, precision, recall, and f1-score were used to evaluate the performance of the neural networks. Overall, the results showed that the CNN outperformed the FNN. The entire process taken to pre-process the data, train the models, and evaluate them can be seen in the jupyter notebook, [handwritten_digits](https://github.com/acosio14/handwritten-digits-recognizer/blob/main/handwritten-digits.ipynb).
+To evaluate performance, the final models were tested on the untouched test dataset. Metrics such as accuracy, precision, recall, and F1-score were used to compare the networks. Overall, the CNN outperformed the FNN, which was to be expected since it is better suited to deal with spatial data, such as images. The entire workflow—including preprocessing, training, and evaluation can be viewed in the Jupyter notebook [handwritten_digits](https://github.com/acosio14/handwritten-digits-recognizer/blob/main/handwritten-digits.ipynb).
 
-Overall, I learned:
-- How to build a Convolutional Neural Network.
-- How to properly batch data from scratch.
-- Better understanding of classification metrics.
-- The proper use of CrossEntropLoss and what inputs it requires.
+## Overall, I learned:
+- How to build a Convolutional Neural Network  
+- How to properly batch data from scratch  
+- A deeper understanding of classification metrics  
+- The correct use of `CrossEntropyLoss` and the type of inputs it requires  
